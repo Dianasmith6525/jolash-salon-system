@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, DollarSign, Scissors, Palette, Sparkles, Hand, Eye, Massage, Star } from "lucide-react";
+import { Clock, DollarSign, Scissors, Palette, Sparkles, Hand, Eye, Heart, Star } from "lucide-react";
 import Link from "next/link";
 
 interface Service {
@@ -53,7 +53,7 @@ const serviceCategories = {
   },
   waxing: {
     title: "Waxing Services",
-    icon: <Massage className="h-6 w-6" />,
+    icon: <Heart className="h-6 w-6" />,
     keywords: ["wax", "brazilian", "bikini", "leg", "arm", "back", "chest", "underarm"]
   },
   makeup: {
@@ -63,8 +63,8 @@ const serviceCategories = {
   },
   wellness: {
     title: "Wellness & Packages",
-    icon: <Massage className="h-6 w-6" />,
-    keywords: ["massage", "package", "spa", "trial", "mother", "girls"]
+    icon: <Heart className="h-6 w-6" />,
+    keywords: ["Heart", "package", "spa", "trial", "mother", "girls"]
   }
 };
 
@@ -272,82 +272,4 @@ export default function FeaturesPage() {
       <ChatWidget />
     </div>
   );
-}
-    },
-    {
-      name: "Waxing",
-      description: "Professional waxing services for smooth, hair-free skin",
-      price: "$40",
-      duration: "30 min",
-      image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800"
-    },
-    {
-      name: "Makeup Application",
-      description: "Professional makeup for any occasion - weddings, events, or photoshoots",
-      price: "$95",
-      duration: "60 min",
-      image: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800"
-    },
-    {
-      name: "Hair Extensions",
-      description: "Premium hair extension installation for length and volume",
-      price: "$350",
-      duration: "180 min",
-      image: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800"
-    },
-    {
-      name: "Deep Conditioning",
-      description: "Intensive hair conditioning treatment to restore moisture and shine",
-      price: "$75",
-      duration: "45 min",
-      image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=800"
-    }
-  ]
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      
-      <main className="flex-1">
-        <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
-          <div className="container mx-auto px-4">
-            <h1 className="text-5xl font-bold mb-4 text-center">Our Services</h1>
-            <p className="text-xl text-muted-foreground text-center max-w-2xl mx-auto">
-              Discover our comprehensive range of beauty and wellness services
-            </p>
-          </div>
-        </section>
-
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-56 bg-cover bg-center" style={{ backgroundImage: `url(${service.image})` }} />
-                  <CardHeader>
-                    <CardTitle>{service.name}</CardTitle>
-                    <CardDescription>{service.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <p className="text-2xl font-bold text-primary">{service.price}</p>
-                        <p className="text-sm text-muted-foreground">{service.duration}</p>
-                      </div>
-                      <Button asChild>
-                        <Link href="/booking">Book Now</Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-      <ChatWidget />
-    </div>
-  )
 }
