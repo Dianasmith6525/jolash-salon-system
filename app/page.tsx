@@ -1,3 +1,5 @@
+"use client"
+
 import Header from "@/components/Header"
 import Footer from "@/components/footer"
 import ChatWidget from "@/components/chat-widget"
@@ -5,9 +7,38 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Sparkles, Calendar, ShoppingBag, Award, Heart, Star, Scissors, Palette, Eye } from "lucide-react"
+import { toast } from "sonner"
 
 export default function Home() {
+  const router = useRouter()
+  
+  const handleAddToCart = (product: any) => {
+    try {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existingIndex = cart.findIndex((item: any) => item.name === product.name);
+      
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: parseFloat(product.price.replace('$', '')),
+          image: product.image,
+          quantity: 1,
+          type: product.type
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      window.dispatchEvent(new Event('cartUpdated'));
+      toast.success(`${product.name} added to cart!`);
+    } catch (e) {
+      toast.error('Error adding to cart.');
+    }
+  };
   const featuredServices = [
     {
       title: "Hair Styling",
@@ -45,22 +76,28 @@ export default function Home() {
 
   const bestSellers = [
     {
+      id: "luxury-shampoo",
       name: "Luxury Shampoo",
       price: "$32",
-      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800",
-      rating: 5
+      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400",
+      rating: 5,
+      type: "haircare"
     },
     {
+      id: "lace-front-natural-black",
       name: "Lace Front Wig",
       price: "$280",
-      image: "https://images.unsplash.com/photo-1595475884562-073c30d45670?w=800",
-      rating: 5
+      image: "https://images.unsplash.com/photo-1595475884562-073c30d45670?w=400",
+      rating: 5,
+      type: "wig"
     },
     {
+      id: "facial-serum",
       name: "Facial Serum",
       price: "$65",
-      image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800",
-      rating: 5
+      image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400",
+      rating: 5,
+      type: "product"
     }
   ]
 
@@ -301,7 +338,15 @@ export default function Home() {
                     
                     {/* Floating Add to Cart */}
                     <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-                      <Button size="sm" className="bg-white text-gray-800 hover:bg-gray-100 shadow-lg">
+                      <Button 
+                        size="sm" 
+                        className="bg-white text-gray-800 hover:bg-gray-100 shadow-lg"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
+                      >
                         <ShoppingBag className="h-4 w-4 mr-1" />
                         Add to Cart
                       </Button>
@@ -322,17 +367,21 @@ export default function Home() {
                     </div>
                     
                     {/* 3D Button */}
-                    <Button 
-                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                      size="lg"
+                    <a
+                      href={
+                        product.type === 'wig' ? `/wigs/${product.id}` :
+                        product.type === 'haircare' ? `/extensions/${product.id}` :
+                        `/products/${product.id}`
+                      }
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center justify-center px-4 py-2 text-white font-medium rounded-lg text-lg relative z-10 block"
                     >
                       View Product
                       <Eye className="ml-2 h-4 w-4" />
-                    </Button>
+                    </a>
                   </div>
                   
                   {/* 3D Glow Effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
               ))}
             </div>

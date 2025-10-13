@@ -1,3 +1,5 @@
+'use client';
+
 import Header from "@/components/Header"
 import Footer from "@/components/footer"
 import ChatWidget from "@/components/chat-widget"
@@ -37,6 +39,12 @@ export default function JolashVIPPage() {
       color: "from-purple-400 to-purple-600"
     }
   ]
+
+  const handleJoinVIP = (tier: any) => {
+    alert(`Thank you for your interest in ${tier.name}!\n\nPrice: ${tier.price}\n\nPlease contact us to complete your VIP membership enrollment.`);
+    // In a real implementation, this would navigate to a payment/registration page
+    // window.location.href = `/vip-checkout?tier=${tier.name}`;
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -90,7 +98,7 @@ export default function JolashVIPPage() {
                         </li>
                       ))}
                     </ul>
-                    <Button className="w-full" variant={tier.popular ? "default" : "outline"}>
+                    <Button className="w-full" variant={tier.popular ? "default" : "outline"} onClick={() => handleJoinVIP(tier)}>
                       Join {tier.name}
                     </Button>
                   </CardContent>

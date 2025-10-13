@@ -209,7 +209,11 @@ export default function FeaturesPage() {
                           </div>
                         </div>
                         <CardHeader className="pb-3">
-                          <CardTitle className="text-lg leading-tight">{service.name}</CardTitle>
+                          <Link href={`/services/${service.id}`}>
+                            <CardTitle className="text-lg leading-tight hover:text-purple-600 transition-colors cursor-pointer">
+                              {service.name}
+                            </CardTitle>
+                          </Link>
                           <CardDescription className="text-sm line-clamp-2">
                             {service.description}
                           </CardDescription>
@@ -225,11 +229,18 @@ export default function FeaturesPage() {
                               <span>{service.price}</span>
                             </div>
                           </div>
-                          <Link href="/booking">
-                            <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-                              Book Now
-                            </Button>
-                          </Link>
+                          <div className="flex gap-2">
+                            <Link href={`/services/${service.id}`} className="flex-1">
+                              <Button variant="outline" className="w-full">
+                                View Details
+                              </Button>
+                            </Link>
+                            <Link href="/booking" className="flex-1">
+                              <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                                Book Now
+                              </Button>
+                            </Link>
+                          </div>
                         </CardContent>
                       </Card>
                     ))}

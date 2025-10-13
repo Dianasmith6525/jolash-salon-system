@@ -1,3 +1,5 @@
+'use client';
+
 import Header from "@/components/Header"
 import Footer from "@/components/footer"
 import ChatWidget from "@/components/chat-widget"
@@ -58,6 +60,15 @@ export default function PromotionsPage() {
     }
   ]
 
+  const handleClaimOffer = (promo: any) => {
+    // Copy promo code to clipboard
+    navigator.clipboard.writeText(promo.code).then(() => {
+      alert(`Promo code "${promo.code}" copied to clipboard! Use it at checkout to get ${promo.discount}.`);
+    }).catch(() => {
+      alert(`Promo code: ${promo.code}\nUse this at checkout to get ${promo.discount}.`);
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -100,7 +111,7 @@ export default function PromotionsPage() {
                         <Clock className="h-4 w-4" />
                         <span>{promo.expires}</span>
                       </div>
-                      <Button className="w-full">Claim Offer</Button>
+                      <Button className="w-full" onClick={() => handleClaimOffer(promo)}>Claim Offer</Button>
                     </div>
                   </CardContent>
                 </Card>

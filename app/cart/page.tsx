@@ -67,6 +67,20 @@ export default function CartPage() {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
+  const handleCheckout = () => {
+    // Navigate to checkout page (you can create this page later)
+    // For now, we'll show an alert
+    if (cartItems.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+    
+    // You can navigate to a checkout page here
+    // For now, show confirmation
+    alert(`Proceeding to checkout with ${getTotalItems()} items totaling $${(getTotalPrice() * 1.08).toFixed(2)}`);
+    // window.location.href = '/checkout'; // Uncomment when checkout page is ready
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -208,6 +222,7 @@ export default function CartPage() {
                       <Button 
                         className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                         size="lg"
+                        onClick={handleCheckout}
                       >
                         Proceed to Checkout
                       </Button>
